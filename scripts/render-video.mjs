@@ -46,6 +46,8 @@ const seek = (ms) => page.evaluate(async (ms) => {
     v.addEventListener("seeked", () => { clearTimeout(timer); done(); }, { once: true });
     v.currentTime = t;
   })));
+  // Two frames, so layout, images and big layers are painted before the screenshot (no half-rastered tiles).
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
 }, ms);
 
 // Stills for checking: default the middle of each scene.

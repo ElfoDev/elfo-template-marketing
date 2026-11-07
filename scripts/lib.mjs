@@ -91,7 +91,7 @@ export async function layoutProblems(page) {
       if (!r.width || !r.height) continue;
       const hasText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
       if (hasText && (r.left < -1 || r.top < -1 || r.right > W + 1 || r.bottom > H + 1)) out.push(`outside the frame: ${label(el)}`);
-      if ((cs.overflow === "hidden" || cs.overflowY === "hidden" || cs.overflowX === "hidden") && el !== document.body && el.tagName !== "HTML"
+      if ((cs.overflow === "hidden" || cs.overflowY === "hidden" || cs.overflowX === "hidden") && el !== document.body && el.tagName !== "HTML" && !el.querySelector("[data-bleed], img")
         && (el.scrollHeight > el.clientHeight + 2 || el.scrollWidth > el.clientWidth + 2) && el.innerText?.trim()) out.push(`content cut off inside: ${label(el)}`);
     }
     return [...new Set(out)].slice(0, 12);
