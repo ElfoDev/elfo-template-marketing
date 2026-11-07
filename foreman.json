@@ -1,0 +1,8 @@
+{
+  "template": "marketing",
+  "commands": {
+    "setup": "npm ci --no-audit --no-fund",
+    "render-images": "node scripts/render-images.mjs",
+    "render-video": "node scripts/render-video.mjs"
+  }
+}

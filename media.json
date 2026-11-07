@@ -1,0 +1,11 @@
+{
+  "$comment": "AI models the scripts use. Models are renamed and retired often: when a call says the model doesn't exist, look up the provider's current list and change it here.",
+  "image": {
+    "fal": { "model": "fal-ai/nano-banana-pro", "resolution": "1K", "approxUsdPerImage": 0.15 },
+    "openai": { "model": "gpt-image-1.5", "quality": "high" },
+    "gemini": { "model": "gemini-3-pro-image-preview" }
+  },
+  "voice": {
+    "elevenlabs": { "voiceId": "21m00Tcm4TlvDq8ikWAM", "model": "eleven_multilingual_v2" }
+  }
+}

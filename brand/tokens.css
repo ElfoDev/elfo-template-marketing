@@ -1,0 +1,18 @@
+/* Brand tokens: the only place colors and fonts are set. Templates and every piece's HTML read these. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap");
+
+:root {
+  --brand: #2e7d5b;        /* main accent */
+  --brand-light: #4fa37c;  /* accent on dark backgrounds */
+  --ink: #12201a;          /* text on light backgrounds */
+  --paper: #f4f0e3;        /* light background */
+  --night: #0e1512;        /* dark background */
+  --muted: #6b7a72;        /* secondary text */
+  --highlight: #f4b545;    /* sparingly: one word, one number */
+
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --radius: 28px;
+}

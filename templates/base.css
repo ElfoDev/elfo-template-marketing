@@ -1,0 +1,65 @@
+/*
+ * Base styles for everything rendered from HTML: slides, thumbnails and video scenes. Link it (and brand/tokens.css)
+ * from a piece's HTML with a relative path, e.g. from content/MK-12-x/source/slide-01.html:
+ *   <link rel="stylesheet" href="../../../brand/tokens.css"> <link rel="stylesheet" href="../../../templates/base.css">
+ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body { font-family: var(--font-body); color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
+
+/* A full-frame canvas with safe margins. */
+.frame { position: relative; width: 100%; height: 100%; padding: 90px; display: flex; flex-direction: column; gap: 36px; overflow: hidden; }
+.frame.dark { background: var(--night); color: var(--paper); }
+.frame.brand { background: var(--brand); color: var(--paper); }
+.frame.center { justify-content: center; }
+
+/* Type scale (px at 1080 wide; scale with --k on bigger or smaller frames). */
+.frame { --k: 1; }
+.eyebrow { font: 600 calc(28px * var(--k)) / 1.2 var(--font-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--brand); }
+.dark .eyebrow, .brand .eyebrow { color: var(--brand-light); }
+.brand .eyebrow { color: var(--paper); opacity: 0.8; }
+.h1 { font: 800 calc(96px * var(--k)) / 1.02 var(--font-display); letter-spacing: -0.035em; text-wrap: balance; }
+.h2 { font: 750 calc(68px * var(--k)) / 1.06 var(--font-display); letter-spacing: -0.03em; text-wrap: balance; }
+.h3 { font: 700 calc(46px * var(--k)) / 1.12 var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
+.lead { font: 500 calc(40px * var(--k)) / 1.3 var(--font-body); color: var(--muted); text-wrap: pretty; }
+.dark .lead { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+.body { font: 400 calc(34px * var(--k)) / 1.4 var(--font-body); text-wrap: pretty; }
+.mark { color: var(--brand); }
+.dark .mark { color: var(--brand-light); }
+.hl { background: linear-gradient(transparent 62%, color-mix(in srgb, var(--highlight) 70%, transparent) 62%); }
+.mono { font-family: var(--font-mono); }
+
+/* Pieces. */
+.chip { display: inline-flex; align-items: center; gap: 12px; padding: 12px 22px; border-radius: 999px; font: 600 calc(26px * var(--k)) / 1 var(--font-body); background: color-mix(in srgb, var(--brand) 14%, transparent); color: var(--brand); }
+.dark .chip { background: color-mix(in srgb, var(--brand-light) 18%, transparent); color: var(--brand-light); }
+.list { display: grid; gap: 22px; list-style: none; }
+.list li { display: grid; grid-template-columns: 56px 1fr; gap: 20px; align-items: start; font: 500 calc(36px * var(--k)) / 1.3 var(--font-body); }
+.list li::before { content: counter(item); counter-increment: item; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: var(--brand); color: var(--paper); font: 700 28px/1 var(--font-mono); }
+.list { counter-reset: item; }
+.shot { display: block; max-width: 100%; border-radius: calc(var(--radius) * 0.6); box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(0 0 0 / 0.08); }
+.dark .shot { box-shadow: 0 30px 90px -20px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(255 255 255 / 0.1); }
+.grow { flex: 1; min-height: 0; }
+.row { display: flex; align-items: center; gap: 24px; }
+.foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; font: 600 calc(26px * var(--k)) / 1 var(--font-body); color: var(--muted); }
+.logo { width: calc(64px * var(--k)); height: calc(64px * var(--k)); }
+
+/* Video: scenes stacked on one stage, each visible from --start for --dur (see .claude/skills/video). */
+.stage { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--night); }
+.scene { position: absolute; inset: 0; opacity: 0; animation: scene-vis var(--dur, 3s) linear var(--start, 0s) both; }
+@keyframes scene-vis { 0% { opacity: 0; } 4% { opacity: 1; } 96% { opacity: 1; } 100% { opacity: 0; } }
+.scene.hold-end { animation-name: scene-hold; }
+@keyframes scene-hold { 0% { opacity: 0; } 4% { opacity: 1; } 100% { opacity: 1; } }
+/* Entrances inside a scene: delay is relative to the scene's start (--d). */
+.in { animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--start, 0s) + var(--d, 0s)) both; }
+.in.fade { animation-name: fade; }
+.in.pop { animation-name: pop; }
+.in.left { animation-name: from-left; }
+@keyframes rise { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes from-left { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: none; } }
+/* A slow push-in for screenshots and photos across the whole scene. */
+.drift { animation: drift var(--dur, 3s) linear var(--start, 0s) both; }
+@keyframes drift { from { transform: scale(1); } to { transform: scale(1.06); } }
+/* Captions for sound-off viewing. */
+.caption { position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%); max-width: 80%; padding: 14px 26px; border-radius: 14px; background: rgb(0 0 0 / 0.72); color: #fff; font: 600 calc(40px * var(--k)) / 1.25 var(--font-body); text-align: center; text-wrap: balance; }
